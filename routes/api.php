@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MultipleUploadController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('multiple-image-upload', [MultipleUploadController::class, 'store']);
+Route::get('multiple', [MultipleUploadController::class, 'tesStore']);
+Route::post('multiple', [MultipleUploadController::class, 'testStore']);
 
 
