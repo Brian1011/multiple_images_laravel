@@ -18,7 +18,6 @@ class MultipleUploadController extends Controller
 
             $allowedFileExtension=['jpg','png'];
             $files = $request->file('fileName');
-            error_log($files);
             $errors = [];
             //return $_FILES;
 
@@ -34,6 +33,16 @@ class MultipleUploadController extends Controller
                 if($check) {
                     foreach($request->fileName as $mediaFiles) {
 
+                        $image = new Image;
+                        $path = $mediaFiles->store('/images/resource', ['disk' =>  'my_files']);
+                        /*$image->url = $path;
+                        $image->product_id = $product->id;
+                        $image->save();*/
+
+                        /*$save->title = $name;
+                        $save->path = $path;
+                        $save->save();*/
+
                         error_log($mediaFiles);
                         //store image in any method you prefer as a single image
 
@@ -42,7 +51,6 @@ class MultipleUploadController extends Controller
 
                         //store image file into directory and db
                         $save = new Image();
-
 
                         /*
 
@@ -53,10 +61,6 @@ class MultipleUploadController extends Controller
                          \Storage::disk($path)->put($filename, base64_decode($image));
 
                         */
-
-                        /*$save->title = $name;
-                        $save->path = $path;
-                        $save->save();*/
                     }
                 } else {
                     return response()->json(['invalid_file_format'], 422);
