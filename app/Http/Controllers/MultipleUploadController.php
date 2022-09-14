@@ -20,6 +20,7 @@ class MultipleUploadController extends Controller
             $files = $request->file('fileName');
             error_log($files);
             $errors = [];
+            //return $_FILES;
 
             // treat it as an array of files
             foreach ($files as $file) {
@@ -36,12 +37,11 @@ class MultipleUploadController extends Controller
                         error_log($mediaFiles);
                         //store image in any method you prefer as a single image
 
-                        /*
-                                                $path = $mediaFiles->store('public/images');
-                                                $name = $mediaFiles->getClientOriginalName();
+                        $path = $mediaFiles->store('public/images');
+                        $name = $mediaFiles->getClientOriginalName();
 
-                                                //store image file into directory and db
-                                                $save = new Image();*/
+                        //store image file into directory and db
+                        $save = new Image();
 
 
                         /*
