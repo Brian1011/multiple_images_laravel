@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 class MultipleUploadController extends Controller
 {
     public function store(Request $request) {
+        // check request file
         if( !$request->hasFile('fileName')) {
             return response()->json([
                 'status_code' => 422,
@@ -18,9 +19,11 @@ class MultipleUploadController extends Controller
         }
 
         //check count
-        return count(collect($request->file('fileName')));
+        // return count(collect($request->file('fileName')));
 
         try {
+            // store on images/resources
+            // php artisan storage:link
             foreach($request->file('fileName') as $file) {
                 $file->store('images/resource');
             }
