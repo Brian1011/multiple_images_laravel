@@ -9,66 +9,32 @@ use Illuminate\Support\Facades\Log;
 
 class MultipleUploadController extends Controller
 {
-    public function store(Request $request)
-    {
-            error_log('API HAS BEEN HIT');
-            if(!$request->hasFile('fileName')) {
-                return response()->json(['upload_file_not_found'], 400);
+    public function store(Request $request) {
+        if( !$request->hasFile('fileName')) {
+            return response()->json([
+                'status_code' => 422,
+                'message' => 'No images given'
+            ], 422);
+        }
+
+        //check count
+        return count(collect($request->file('fileName')));
+
+        try {
+            foreach($request->file('fileName') as $file) {
+                $file->store('images/resource');
             }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Failed: ' . $e->getMessage()
+            ], 500);
+        }
 
-            $allowedFileExtension=['jpg','png'];
-            $files = $request->file('fileName');
-            $errors = [];
-            //return $_FILES;
-
-            // treat it as an array of files
-            foreach ($files as $file) {
-                error_log("MULTIPLE FILES");
-                error_log($file);
-
-                $extension = $file->getClientOriginalExtension();
-
-                $check = in_array($extension,$allowedFileExtension);
-
-                if($check) {
-                    foreach($request->fileName as $mediaFiles) {
-
-                        $image = new Image;
-                        $path = $mediaFiles->store('/images/resource', ['disk' =>  'my_files']);
-                        /*$image->url = $path;
-                        $image->product_id = $product->id;
-                        $image->save();*/
-
-                        /*$save->title = $name;
-                        $save->path = $path;
-                        $save->save();*/
-
-                        error_log($mediaFiles);
-                        //store image in any method you prefer as a single image
-
-                        $path = $mediaFiles->store('public/images');
-                        $name = $mediaFiles->getClientOriginalName();
-
-                        //store image file into directory and db
-                        $save = new Image();
-
-                        /*
-
-                         $filename = time().'.png';
-
-                         //Save Image
-
-                         \Storage::disk($path)->put($filename, base64_decode($image));
-
-                        */
-                    }
-                } else {
-                    return response()->json(['invalid_file_format'], 422);
-                }
-            }
-        error_log("COMPLETE");
-
-            return response()->json(['file_uploaded'], 200);
+        return response()->json([
+            'status_code' => 200,
+            'message' => 'Image saved'
+        ], 200);
     }
 
     public function tesStore(){
