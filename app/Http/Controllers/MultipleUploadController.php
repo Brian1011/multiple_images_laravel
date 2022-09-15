@@ -29,7 +29,8 @@ class MultipleUploadController extends Controller
             foreach($request->file('fileName') as $file) {
                 error_log($file);
                 $file->store('images/resource');
-
+                // create new instance of image
+                $save = new Image();
 
 
             }
