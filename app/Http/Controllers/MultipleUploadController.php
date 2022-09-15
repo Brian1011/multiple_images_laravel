@@ -18,6 +18,8 @@ class MultipleUploadController extends Controller
             ], 422);
         }
 
+        error_log($request);
+
         //check count
         // return count(collect($request->file('fileName')));
 
@@ -25,7 +27,11 @@ class MultipleUploadController extends Controller
             // store on images/resources
             // php artisan storage:link
             foreach($request->file('fileName') as $file) {
+                error_log($file);
                 $file->store('images/resource');
+
+
+
             }
         } catch (\Exception $e) {
             return response()->json([
