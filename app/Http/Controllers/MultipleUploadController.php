@@ -31,10 +31,14 @@ class MultipleUploadController extends Controller
                 $file->store('images/resource');
                 // create new instance of image
                 $save = new Image();
-
                 //get path and file name
                 $path = $file->store('public/images');
                 $name = $file->getClientOriginalName();
+                // add path and filename to image model
+                $save->title = $name;
+                $save->path = $path;
+                //save new record
+                $save->save();
 
 
             }
