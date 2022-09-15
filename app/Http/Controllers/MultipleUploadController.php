@@ -32,6 +32,10 @@ class MultipleUploadController extends Controller
                 // create new instance of image
                 $save = new Image();
 
+                //get path and file name
+                $path = $file->store('public/images');
+                $name = $file->getClientOriginalName();
+
 
             }
         } catch (\Exception $e) {
